@@ -18,12 +18,13 @@ public class Button: Bin {
     override func didMoveToParent() {
         super.didMoveToParent()
         
-        addSignal("clicked") { [unowned self] in self.clicked?(self) }
+        addSignal(name:"clicked") { [unowned self] in self.clicked?(self) }
     }
     
     public var label: String? {
         get {
-            return String.fromCString(gtk_button_get_label(UnsafeMutablePointer(widgetPointer)))
+	    return String(cString:gtk_button_get_label(UnsafeMutablePointer(widgetPointer)))
+            // return String.fromCString(gtk_button_get_label(UnsafeMutablePointer(widgetPointer)))
         }
         set {
             if let title = newValue {
@@ -34,5 +35,5 @@ public class Button: Bin {
         }
     }
     
-    public var clicked: (Button -> Void)?
+    public var clicked: ((Button) -> Void)?
 }
